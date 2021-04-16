@@ -24,7 +24,7 @@ def query_db(query, args=(), one=False):
     return (rv[0] if rv else None) if one else rv
 
 def init():
-    flagvalue = open('/var/ctf/flag').read().strip()
+    flagvalue = open('flag').read().strip()
     get_db().execute("CREATE TABLE flag(id INTEGER PRIMARY KEY AUTOINCREMENT, flag TEXT)")
     get_db().execute("INSERT INTO flag(id, flag) VALUES(NULL, ?)", (flagvalue,))
 
@@ -289,6 +289,7 @@ def default_user_info():
 
 
 if __name__ == '__main__':
+    init()
     users = default_user_info()
     app.config['SECRET_KEY'] = os.urandom(16)
     app.config['SESSION_COOKIE_NAME'] = 'pcs'
