@@ -26,8 +26,10 @@ def query_db(query, args=(), one=False):
 def init():
     flagvalue = open('flag').read().strip()
     get_db().execute("CREATE TABLE flag(id INTEGER PRIMARY KEY AUTOINCREMENT, flag TEXT)")
-    get_db().execute("INSERT INTO flag(id, flag) VALUES(NULL, ?)", (flagvalue,))
-
+    conn=get_db()
+    conn.execute("INSERT INTO flag(id, flag) VALUES(NULL, ?)", (flagvalue,))
+    conn.commit()
+    
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -147,7 +149,7 @@ def see_secret(username):
             print(secret_s)
         string="".join(x[0] for x in secret_s)
         if string:
-            flash(search+"'s secret is   "+string, 'success')
+            flash("Your secret is   "+string, 'success')
         else:
             flash("None one of name "+search+" found", 'success')
 
