@@ -1,0 +1,15 @@
+.navbar {
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    max-width: 100%;
+}
+
+.profile-name {
+    text-align:center;
+}

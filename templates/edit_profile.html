@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ name }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="jumbotron col-12">
+  <h1 class="display-4">Edit My Profile</h1>
+  <hr class="my-4">
+  <a class="btn btn-primary btn-lg" href="{{ url_for('profile', username=username) }}" role="button">Back</a>
+</div>
+</div>
+<div class="row">
+  <div class="jumbotron col-3">
+    <div>
+      <img src="https://www.gravatar.com/avatar/{{ avatar }}?d=identicon&s=200" class="profile-avatar">
+    </div>
+
+    <h2 class="profile-name">{{ name }}</h2>
+  </div>
+  <div class="jumbotron col-8 offset-1">
+    <form method="post">
+      <div class="form-group row">
+        <label for="slogan" class="col-sm-2 col-form-label">Slogan</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="slogan" id="slogan" value="{{ slogan }}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="description" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" name="description" id="description" rows="7">{{ description }}</textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10 offset-2">
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

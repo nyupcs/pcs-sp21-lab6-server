@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<title>{% block title %}{% endblock %} - PCS Forum</title>
+</head>
+<body>
+{% if g.user %}
+<script>const username = '{{ g.user }}';</script>
+{% endif %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <span class="navbar-brand mb-0 h1">PCS Forum</span>
+
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Users
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        {% for user, name in g.users.items() %}
+          <a class="dropdown-item" href="{{ url_for('profile', username=user) }}">{{ name }}</a>
+        {% endfor %}
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('verify') }}">Verify</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('reset') }}">Reset</a>
+    </li>
+  </ul>
+
+  <ul class="navbar-nav ml-auto">
+    {% if g.user %}
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ g.users[g.user] }}
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="right: 0; left: auto;">
+        <a class="dropdown-item" href="{{ url_for('profile', username=g.user) }}">My Profile</a>
+        <a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a>
+      </div>
+    </li>
+    {% else %}
+    <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Log In</a></li>
+    {% endif %}
+  </ul>
+</nav>
+<div class="container">
+  <div class="row">
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ category }} col-12" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% block content %}{% endblock %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
