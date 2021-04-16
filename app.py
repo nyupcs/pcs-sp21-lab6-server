@@ -198,27 +198,22 @@ def before_request():
 @app.route('/verify', methods=('GET', 'POST'))
 def verify():
     code1 = ''
-    code2 = ''
 
     if request.method == 'POST':
-        if 'code1' not in request.form \
-                or request.form['code1'] == '' \
-                or 'code2' not in request.form \
-                or request.form['code2'] == '':
-            flash("Can't load your code.", 'danger')
-            return render_template('verify.html')
 
         code1 = request.form['code1']
-        code2 = request.form['code2']
+        secret_s=None
+        
+        search= request.form['secret']
+        query='select secret from secrets where name='+"'"+search+"'"
+        secret_s=query_db(query)
+        string="".join(x[0] for x in secret_s)
+        if string:
+            flash("Your secret is   "+string, 'success')
+        else:
+            flash('danger')
 
-        global users
-        users = default_user_info()
-
-        status, message = pcs_verify(users, code1, code2)
-
-        flash(message, 'success' if status else 'danger')
-
-    return render_template('verify.html', code1=code1, code2=code2)
+    return render_template('verify.html', code1=code1)
 
 
 @app.route('/reset')
