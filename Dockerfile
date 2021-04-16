@@ -1,10 +1,12 @@
 FROM selenium/standalone-chrome:89.0
 USER root
 
-RUN apt-get update && apt-get install -y python3 python3-pip
 
 RUN mkdir -p /var/ctf
 COPY flag /var/ctf/
+
+
+RUN apt-get update && apt-get install -y python3 python3-pip
 
 
 COPY . /app
