@@ -2,8 +2,7 @@ FROM selenium/standalone-chrome:89.0
 USER root
 
 
-RUN mkdir -p /var/ctf
-COPY flag /var/ctf/
+
 
 
 RUN apt-get update && apt-get install -y python3 python3-pip
@@ -11,6 +10,8 @@ RUN apt-get update && apt-get install -y python3 python3-pip
 
 COPY . /app
 WORKDIR /app
+RUN mkdir -p /var/ctf
+COPY flag /var/ctf/
 RUN pip3 install -r requirements.txt
 
 EXPOSE 4000
