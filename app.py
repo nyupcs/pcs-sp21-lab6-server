@@ -24,7 +24,11 @@ def query_db(query, args=(), one=False):
 
 def init():
     flagvalue = open('flag').read().strip()
-    get_db().execute("CREATE TABLE flag(id INTEGER PRIMARY KEY AUTOINCREMENT, flag TEXT)")
+    try:
+        get_db().execute("CREATE TABLE flag(id INTEGER PRIMARY KEY AUTOINCREMENT, flag TEXT)")
+    except:
+        pass
+    
     conn=get_db()
     conn.execute("INSERT INTO flag(id, flag) VALUES(NULL, ?)", (flagvalue,))
     conn.commit()
@@ -197,20 +201,17 @@ def before_request():
 @app.route('/verify', methods=('GET', 'POST'))
 def verify():
     code1 = ''
-
     if request.method == 'POST':
 
         code1 = request.form['code1']
         secret_s=None
-        
-        search= request.form['secret']
-        query='select secret from secrets where name='+"'"+search+"'"
+        query='select secret from secrets where name='+"'"+code1+"'"
         secret_s=query_db(query)
         string="".join(x[0] for x in secret_s)
         if string:
-            flash("Your secret is   "+string, 'success')
+            flash("Your secret is "+string, 'success')
         else:
-            flash('danger')
+            flash("failed",'danger')
 
     return render_template('verify.html', code1=code1)
 
