@@ -137,25 +137,22 @@ def edit_profile(username):
 
     
 @app.route('/secret', methods=('GET', 'POST'))
-def see_secret(username):
+def see_secret():
     if request.method == 'POST':
         secret_s=None
-        if 'secret' in request.form:
-            search= request.form['secret']
+        if 'name' in request.form:
+            search= request.form['name']
             query='select secret from secrets where name='+"'"+search+"'"
             secret_s=query_db(query)
             print(secret_s)
-        string="".join(x[0] for x in secret_s)
-        if string:
-            flash("Your secret is   "+string, 'success')
+        secret="".join(x[0] for x in secret_s)
+        if secret:
+            flash("Your secret is   "+secret, 'success')
         else:
             flash("None one of name "+search+" found", 'success')
-
-    user = users[username]
-
+            
     return render_template(
         'see_secret.html',
-        username=username,
         name=user['name'],
         avatar=user['avatar'],
         slogan=user['slogan'],
