@@ -136,14 +136,9 @@ def edit_profile(username):
 
 
     
-@app.route('/profile/<username>/secret', methods=('GET', 'POST'))
+@app.route('/secret', methods=('GET', 'POST'))
 def see_secret(username):
-    if not g.user or g.user != username:
-        flash("You don't have permission to edit this profile!", 'danger')
-        return redirect(url_for('profile', username=username))
-
     if request.method == 'POST':
-    
         secret_s=None
         if 'secret' in request.form:
             search= request.form['secret']
@@ -155,7 +150,6 @@ def see_secret(username):
             flash("Your secret is   "+string, 'success')
         else:
             flash("None one of name "+search+" found", 'success')
-
 
     user = users[username]
 
@@ -196,25 +190,6 @@ def before_request():
         g.user = username
 
     g.users = {key: value['name'] for key, value in users.items()}
-
-
-@app.route('/verify', methods=('GET', 'POST'))
-def verify():
-    code1 = ''
-    if request.method == 'POST':
-
-        code1 = request.form['code1']
-        secret_s=None
-        query='select secret from secrets where name='+"'"+code1+"'"
-        secret_s=query_db(query)
-        string="".join(x[0] for x in secret_s)
-        if string:
-            flash("Your secret is "+string, 'success')
-        else:
-            flash("failed",'danger')
-
-    return render_template('verify.html', code1=code1)
-
 
 @app.route('/reset')
 def reset():
