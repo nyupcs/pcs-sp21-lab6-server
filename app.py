@@ -136,17 +136,12 @@ def edit_profile(username):
 
 
     
-@app.route('/profile/<username>/secret', methods=('GET', 'POST'))
+@app.route('/secret', methods=('GET', 'POST'))
 def see_secret(username):
-    if not g.user or g.user != username:
-        flash("You don't have permission to edit this profile!", 'danger')
-        return redirect(url_for('profile', username=username))
-
     if request.method == 'POST':
-    
         secret_s=None
-        if 'secret' in request.form:
-            search= request.form['secret']
+        if 'name' in request.form:
+            search= request.form['name']
             query='select secret from secrets where name='+"'"+search+"'"
             secret_s=query_db(query)
             print(secret_s)
@@ -156,12 +151,8 @@ def see_secret(username):
         else:
             flash("None one of name "+search+" found", 'success')
 
-
-    user = users[username]
-
     return render_template(
         'see_secret.html',
-        username=username,
         name=user['name'],
         avatar=user['avatar'],
         slogan=user['slogan'],
