@@ -1,5 +1,4 @@
 from flask import Flask, flash, g, redirect, render_template, request, session, url_for
-from pcs_verify import pcs_verify
 import os
 from werkzeug.security import check_password_hash
 import sqlite3
