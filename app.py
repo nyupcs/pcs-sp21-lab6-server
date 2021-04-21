@@ -137,7 +137,7 @@ def edit_profile(username):
 
     
 @app.route('/secret', methods=('GET', 'POST'))
-def see_secret(username):
+def see_secret():
     if request.method == 'POST':
         secret_s=None
         if 'name' in request.form:
@@ -147,16 +147,12 @@ def see_secret(username):
             print(secret_s)
         string="".join(x[0] for x in secret_s)
         if string:
-            flash("Your secret is   "+string, 'success')
+            flash("Your secret is "+string, 'success')
         else:
             flash("None one of name "+search+" found", 'success')
 
     return render_template(
         'see_secret.html',
-        name=user['name'],
-        avatar=user['avatar'],
-        slogan=user['slogan'],
-        description=user['description']
     )
 
 
@@ -187,6 +183,11 @@ def before_request():
         g.user = username
 
     g.users = {key: value['name'] for key, value in users.items()}
+
+
+@app.route('/verify', methods=('GET', 'POST'))
+def verify():
+    return render_template('verify.html', code1=code1)
 
 
 @app.route('/reset')

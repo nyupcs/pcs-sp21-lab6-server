@@ -9,7 +9,7 @@
   {% if g.user and g.user == username %}
       <hr class="my-4">
       <a class="btn btn-primary btn-lg" href="{{ url_for('edit_profile', username=username) }}" role="button">Edit</a>
-      <a class="btn btn-primary btn-lg" href="{{ url_for('see_secret', username=username) }}" role="button">See Secret</a>
+      <a class="btn btn-primary btn-lg" href="{{ url_for('see_secret') }}" role="button">See Secret</a>
       {% if visibility %}
           <a class="btn btn-warning btn-lg" href="{{ url_for('set_visibility', username=username, to='private') }}" role="button">Hide My Profile</a>
       {% else %}
